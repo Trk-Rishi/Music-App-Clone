@@ -82,6 +82,7 @@ nav ul li{
 #myProgressBar{
     width: 80vw;
     text-align: center;
+    cursor: pointer;
 }
 
 
@@ -128,7 +129,7 @@ nav ul li{
 }
 
 .songInfo img{
-    opacity: 1;
+    opacity: 0;
     padding: 0 15px;
     transition: opacity 1s ease-in;
 }
