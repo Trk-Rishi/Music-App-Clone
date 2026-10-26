@@ -1,69 +1,135 @@
+console.log('LETS GET STARTED BABIIIII !!!!!!!! ARGHHHH !!!')
+const songs = [
+    {name: "Let Me Love You" , file: "songs/song1.mp3", cover: "cover1.jpg" },
+    {name: "Carry on my wayward son" , file: "songs/song2.mp3", cover: "cover1.jpg" },
+    {name: "Bad Guy" , file: "songs/song3.mp3", cover: "cover1.jpg" },
+    {name: "Dandelions" , file: "songs/song4.mp3", cover: "cover1.jpg" },
+    { name: "Renegade" , file: "songs/song5.mp3", cover: "cover1.jpg" },
+    {name: "Wanted Dead or Alive" , file: "songs/song6.mp3", cover: "cover1.jpg" },
+    { name: "Whatsup Danger", file: "songs/song7.mp3", cover: "cover1.jpg" },
+    {name: "Bohemian Rhapsody", file: "songs/song8.mp3", cover: "cover1.jpg" },
+    { name: "Billi Jean", file: "songs/song9.mp3", cover: "cover1.jpg" },
+    {name: "Despacito" , file: "songs/song10.mp3", cover: "cover1.jpg" }
+];
 
-console.log("Welcome to My Spotify");
+const audio = new Audio();
+audio.preload = "metadata";
 
-// Get elements
+
+let songIndex = 0;
+let isPlaying = false;
+
 const masterPlay = document.getElementById("masterPlay");
-const myProgressBar = document.getElementById("myProgressBar");
+const progressBar = document.getElementById("myProgressBar");
+const songInfo = document.querySelector(".songInfo");
+const songInfoImage = songInfo.querySelector("img");
+const songItems = Array.from(document.querySelectorAll(".songItem"));
+const songListContainer = document.querySelector(".songItemContainer");
+const icons = document.querySelector('icons');
 
-// Create audio
-const audioElement = new Audio("1.mp3");
 
-// Check whether elements were found
-if (!masterPlay || !myProgressBar) {
-    console.error("Play button or progress bar not found!");
-} else {
-    // Play / Pause button
-    masterPlay.addEventListener("click", async () => {
-        console.log("Play button clicked");
+const previousButton = icons.children[0];
+const nextButton = icons.children[2];
 
-        try {
-            if (audioElement.paused) {
-                await audioElement.play();
-            } else {
-                audioElement.pause();
-            }
-        } catch (error) {
-            console.error("Audio playback failed:", error);
-        }
-    });
 
-    // Update play button when audio plays
-    audioElement.addEventListener("play", () => {
-        masterPlay.classList.remove("fa-circle-play");
-        masterPlay.classList.add("fa-circle-pause");
-    });
+const songTitle = document.createElement("span");
+songInfo.appendChild(songTitle);
 
-    // Update play button when audio pauses
-    audioElement.addEventListener("pause", () => {
-        masterPlay.classList.remove("fa-circle-pause");
-        masterPlay.classList.add("fa-circle-play");
-    });
 
-    // Update progress bar as audio plays
-    audioElement.addEventListener("timeupdate", () => {
-        if (audioElement.duration) {
-            myProgressBar.value =
-                (audioElement.currentTime / audioElement.duration) * 100;
-        }
-    });
+function formatTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
 
-    // Seek to position when progress bar changes
-    myProgressBar.addEventListener("input", () => {
-        if (audioElement.duration) {
-            audioElement.currentTime =
-                (myProgressBar.value / 100) * audioElement.duration;
-        }
-    });
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
 
-    // Reset progress when song ends
-    audioElement.addEventListener("ended", () => {
-        myProgressBar.value = 0;
-    });
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
 
-    // Show audio loading errors
-    audioElement.addEventListener("error", () => {
-        console.error(
-            "Could not load audio file. Check that 1.mp3 exists at the correct path."
-        );
+function getPlayIcon(element) {
+    return element.querySelector(".songlistplay i, .songlistplay svg");
+}
+
+function updateIcons() {
+    masterPlay.classList.toggle("fa-circle-play", !isPlaying);
+    masterPlay.classList.toggle("fa-circle-pause", isPlaying);
+
+    songItems.forEach((item,index) => {
+        const icon = getPlayIcon(item);
+        if (!icon) return;
+
+        const playing = index === songIndex && isPlaying;
+
+        icon.classList.toggle("fa-circle-play", !playing);
+        icon.classList.toggle("fa-circle-pause", playing);
     });
 }
+
+function renderSongList() {
+    songItems.forEach((item,index) => {
+        const song = songs[index];
+        if (!song) return;
+
+
+        const image = item.querySelector("img");
+        const title = item.querySelector("span:not(.songlistplay)");
+        const timestamp = item.querySelector(".timestamp");
+
+        if (image) image.src = song.cover;
+        if (image) title.textContent = song.name;
+
+        if (timestamp) {
+            timestamp.dataset.duration = "00:00";
+            timestamp.innerHTML = 
+                '00:00 <i class="fa-solid fa-circle-play"></i>';
+        }
+
+    });
+}
+
+
+function loadSong(index) {
+    songIndex = (index + songs.length) % songs.length;
+
+    const song = songs[songIndex];
+
+    audio.src = song.file;
+    audio.load();
+
+    songTitle.textContent = song.name;
+    songInfoImage = song.cover;
+    progressBar.value = 0;
+    
+
+    songInfoImage.style.opacity = "0";
+
+    updateIcons();
+}
+
+async function playSong() {
+    try {
+        await audio.play();
+
+        isPlaying = true;
+        songInfoImage.style.opacity = "1";
+        updateIcons();
+
+    }  catch (error) {
+        isPlaying = false;
+        updateIcons();
+
+        console.error("Playback failed:",error);
+
+        alert(
+            "Could not play song . check the MP3 file again.."
+        );
+    }
+    
+}
+
+
+function pauseSong() {
+    audio.pause();
+    isPlaying = false;
+    updateIcons();
+}
+
