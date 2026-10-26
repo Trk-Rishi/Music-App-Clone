@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Pvt. Music Hub</title>
     <link rel="icon" type="image/png" href="logo.png">
-
+<!-- connecting css to html -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
-
+<!-- creates the navigation bar -->
     <nav>
         <ul>
-            <li class="brand"><img src="logo.png" alt="Spotify">Spotify</li>
+            <li class="brand"><img src="logo.png" alt="Spotify">Music Hub</li>
             <li> Home</li>
             <li> About</li>
 
         </ul>
     </nav>
-
+<!-- creates the full container in center , for all the songs  -->
     <div class="container">
         <div class="songList">
             <h1>Best of Tanmay's Favourites</h1>
@@ -78,7 +78,7 @@
         </div>
         <div class="songBanner"></div>
     </div>
-
+<!-- creates the bottom container , where play buttons and progress bar are there -->
     <div class="bottom">
     <div class="songInfo">
         <img src="playing.gif" width="42px" alt="">
@@ -86,17 +86,17 @@
     </div>
 
     <input type="range" id="myProgressBar" min="0" max="100" value="0">
-
+<!-- makes the buttons inside the bottom container -->
     <div class="icons">
         <i class="fa-solid fa-3x fa-backward-step"></i>
         <i class="fa-solid fa-3x fa-circle-play" id="masterPlay"></i>
         <i class="fa-solid fa-3x fa-forward-step"></i>
     </div>
 </div>
-
+<!-- importing the icons from outside -->
     <script src="https://kit.fontawesome.com/1d01d8accb.js" crossorigin="anonymous"></script>
 
-
+<!-- connecting the javascript to html -->
 <script src="script.js"></script>
 
 </body>
