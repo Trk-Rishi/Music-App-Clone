@@ -133,3 +133,76 @@ function pauseSong() {
     updateIcons();
 }
 
+
+masterPlay.addEventListener("click", () => {
+    if (audio.paused) {
+        playSong();
+    } else {
+        pauseSong();
+    }
+});
+
+previousButton.addEventListener("click", () => {
+    loadSong(songIndex + 1);
+    playSong();
+})
+
+songListContainer.addEventListener("click", event => {
+    const item = event.target.closest(".songItem");
+    if (!item) return;
+
+    const index = songItems.indexOf(item);
+    if (index < 0 || index >= songs.length) return
+
+    if (index === songIndex && !audio.paused) {
+        pauseSong();
+    } else {
+        loadSong(index);
+        playSong();
+    }
+
+});
+
+
+audio.addEventListener("timeupdate", () => {
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        progressBar.value =
+            (audio.currentTime / audio.duration) * 100;
+    }
+});
+
+
+progressBar.addEventListener("input", () => {
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = 
+            (Number(progressBar.value) / 100) * audio.duration;
+    }
+});
+
+
+audio.addEventListener("loadedmetadata", () => {
+    const timestamp =
+        songItems[songIndex]?.querySelector(".timestamp");
+    
+    if(timestamp) {
+        timestamp.dataset.duration = formatTime(audio.duration);
+        timestamp.firstChild.textContent = 
+            formatTime(audio.duration) + " ";
+    }
+});
+
+audio.addEventListener("ended", () => {
+    loadSong(songIndex + 1);
+    playSong();
+});
+
+audio.addEventListener("error", () => {
+    console.error(
+        "unable to load audio file : ",
+        songs[songIndex].file,
+        audio.error
+    );
+});
+
+renderSongList();
+loadSong(0);
