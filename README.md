@@ -13,12 +13,6 @@ Try the application at :-  https://trk-rishi.github.io/Music-App-Clone/
 
 ![Final Project Looks](image.png)
 
-## Features
-
-- Feature 1: Describe the main functionality.
-- Feature 2: Describe another useful feature.
-- Feature 3: Describe what makes your project special.
-
 ## Technologies Used
 
 - Frontend: HTML AND CSS
