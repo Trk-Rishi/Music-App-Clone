@@ -1,18 +1,44 @@
-This is a clone of any famous music appp
 
-it is made purellyyyy using HTML CSS AND JAVA
+# Music App Clone
 
-no typescript or anything else
+the name is kinda self-explanatory
+it is a pvt. playlist saved as a website that contains 10 of my fav. songs !!
 
-it contains only 10 songs
+## Live Demo
 
-with their covers and names
+NOTE : The website isn't responsive and for best visibility , view it at 50% zoom in your browser 
+Try the application at :-  https://trk-rishi.github.io/Music-App-Clone/
 
-The play buttons beside the songs workk
-the bottom buttons are purely decorative
-(idk couldn't work them)
+## Screenshots
 
-and progress bar works tho
-and tracks the song as well
+![Final Project Looks](image.png)
 
-the icons might take a little time to load !!
+## Features
+
+- Feature 1: Describe the main functionality.
+- Feature 2: Describe another useful feature.
+- Feature 3: Describe what makes your project special.
+
+## Technologies Used
+
+- Frontend: HTML AND CSS
+- Backend: Java Script
+
+## How to Run It Locally
+
+Download the repository as a folder 
+and use "Live server" extension in ur compiler to view it
+or simply extract all items and run the file index.html locally
+
+## Project Structure
+
+index.html contains the structuring of the website
+style.css contains the main styling and layout of the frontend and UI
+script.js makes everything functional
+
+
+## Author
+
+Tanmay Rishikesh
+
+
